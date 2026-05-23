@@ -14,9 +14,15 @@ import { router } from 'expo-router';
 
 import { colors, fontSize, radius, spacing } from '../src/styles/theme';
 
+type FocusField = 'email' | 'password' | null;
+
+const noOutline = Platform.OS === 'web' ? ({ outlineStyle: 'none' } as object) : null;
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [focused, setFocused] = useState<FocusField>(null);
 
   function handleLogin() {
     if (!email.trim() || !password.trim()) {
@@ -48,29 +54,44 @@ export default function LoginScreen() {
         <View style={styles.card}>
           <Text style={styles.title}>Entrar</Text>
 
-          <View style={styles.field}>
+          <View style={[styles.field, focused === 'email' && styles.fieldFocused]}>
             <MaterialCommunityIcons name="email-outline" size={20} color={colors.textMuted} />
             <TextInput
-              style={styles.input}
+              style={[styles.input, noOutline]}
               placeholder="E-mail"
               placeholderTextColor={colors.textMuted}
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
+              onFocus={() => setFocused('email')}
+              onBlur={() => setFocused(null)}
             />
           </View>
 
-          <View style={styles.field}>
+          <View style={[styles.field, focused === 'password' && styles.fieldFocused]}>
             <MaterialCommunityIcons name="lock-outline" size={20} color={colors.textMuted} />
             <TextInput
-              style={styles.input}
+              style={[styles.input, noOutline]}
               placeholder="Senha"
               placeholderTextColor={colors.textMuted}
-              secureTextEntry
+              secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
+              onFocus={() => setFocused('password')}
+              onBlur={() => setFocused(null)}
             />
+            <TouchableOpacity
+              onPress={() => setShowPassword((prev) => !prev)}
+              hitSlop={8}
+              accessibilityLabel={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            >
+              <MaterialCommunityIcons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                color={colors.textMuted}
+              />
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity onPress={() => handlePlaceholder('Recuperação de senha em desenvolvimento.')}>
@@ -157,6 +178,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.sm,
     paddingHorizontal: spacing.md,
+  },
+  fieldFocused: {
+    backgroundColor: colors.white,
+    borderColor: colors.primary,
   },
   input: {
     color: colors.text,
