@@ -1,0 +1,70 @@
+{
+  "expo": {
+    "name": "YEP",
+    "slug": "yep",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "yep",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "O YEP usa sua localização para mostrar os postos de combustível mais próximos.",
+        "NSCameraUsageDescription": "O YEP usa a câmera para fotografar o cupom fiscal ao reportar um preço.",
+        "NSPhotoLibraryUsageDescription": "O YEP acessa suas fotos para anexar o comprovante de preço."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#00754A",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#00754A",
+          "android": {
+            "image": "./assets/images/splash-icon.png",
+            "imageWidth": 76
+          }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O YEP usa sua localização para mostrar os postos mais próximos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "O YEP usa a câmera para fotografar o cupom fiscal ao reportar um preço.",
+          "photosPermission": "O YEP acessa suas fotos para anexar o comprovante de preço."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
