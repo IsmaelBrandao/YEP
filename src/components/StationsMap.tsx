@@ -36,9 +36,16 @@ export default function StationsMap({ stations, region, fuel, priceRange }: Stat
               title={station.name}
               description={station.address}
             >
-              <View style={[styles.marker, { backgroundColor: markerColor }]}>
-                <Text style={styles.markerText}>{price == null ? '—' : formatPrice(price)}</Text>
-                <View style={[styles.markerArrow, { borderTopColor: markerColor }]} />
+              <View style={styles.marker}>
+                <View style={[styles.priceLabel, { borderColor: markerColor }]}>
+                  <Text style={[styles.priceText, { color: markerColor }]}>
+                    {price == null ? '—' : formatPrice(price)}
+                  </Text>
+                </View>
+                <View style={[styles.pin, { backgroundColor: markerColor }]}>
+                  <View style={styles.pinDot} />
+                </View>
+                <View style={[styles.pinTip, { borderTopColor: markerColor }]} />
               </View>
             </Marker>
           );
@@ -61,23 +68,47 @@ const styles = StyleSheet.create({
   },
   marker: {
     alignItems: 'center',
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
   },
-  markerText: {
-    color: colors.white,
+  priceLabel: {
+    backgroundColor: colors.white,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    elevation: 3,
+    marginBottom: -4,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 2,
+    zIndex: 2,
+  },
+  priceText: {
     fontSize: 12,
     fontWeight: '800',
   },
-  markerArrow: {
+  pin: {
+    alignItems: 'center',
+    borderColor: colors.white,
+    borderRadius: 11,
+    borderWidth: 2,
+    height: 22,
+    justifyContent: 'center',
+    width: 22,
+  },
+  pinDot: {
+    backgroundColor: colors.white,
+    borderRadius: 4,
+    height: 7,
+    width: 7,
+  },
+  pinTip: {
     borderLeftColor: 'transparent',
     borderLeftWidth: 5,
     borderRightColor: 'transparent',
     borderRightWidth: 5,
-    borderTopWidth: 6,
-    bottom: -6,
-    position: 'absolute',
+    borderTopWidth: 7,
+    marginTop: -2,
   },
   fab: {
     alignItems: 'center',
