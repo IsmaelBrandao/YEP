@@ -37,7 +37,7 @@ export default function SplashScreen() {
           <MaterialCommunityIcons name="gas-station" size={56} color={colors.primary} />
         </View>
         <Text style={styles.brand}>YEP</Text>
-        <Text style={styles.tagline}>O melhor preço perto de você</Text>
+        <Text style={styles.tagline}>Comparador de preços de combustível</Text>
       </Animated.View>
     </View>
   );
