@@ -42,6 +42,7 @@ export default function LoginScreen() {
             <MaterialCommunityIcons name="gas-station" size={40} color={colors.primary} />
           </View>
           <Text style={styles.brand}>YEP</Text>
+          <Text style={styles.tagline}>Comparador de preços de combustível</Text>
         </View>
 
         <View style={styles.card}>
@@ -130,6 +131,11 @@ const styles = StyleSheet.create({
     fontSize: fontSize.xxl,
     fontWeight: '900',
     letterSpacing: 2,
+  },
+  tagline: {
+    color: colors.secondary,
+    fontSize: fontSize.sm,
+    fontWeight: '600',
   },
   card: {
     backgroundColor: colors.white,
