@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colors, fontSize, radius, spacing } from '../styles/theme';
-import { formatPrice } from '../styles/theme';
+import { colors, fontSize, formatPrice, radius, spacing } from '../styles/theme';
 
 interface PriceTagProps {
   price: number;
