@@ -66,3 +66,7 @@ Abra no Expo Go (Android/iOS) ou em um emulador. O mapa (`react-native-maps`) e 
 - **Distância:** calculada no cliente via Haversine (`src/services/geo.ts`) a partir da localização do usuário.
 - **Cor do preço:** `priceColor()` em `theme.ts` mapeia o preço para verde/laranja/vermelho conforme a faixa min–max dos postos visíveis.
 - **Slider:** `@react-native-community/slider` foi adicionado porque o React Native não tem mais Slider nativo (usado no raio de busca do perfil).
+- **Mapa multiplataforma:** o `react-native-maps` não funciona na web, então o mapa fica isolado no componente `StationsMap`, com duas variantes resolvidas pelo Metro por extensão de plataforma:
+  - `StationsMap.tsx` (nativo) → `react-native-maps`
+  - `StationsMap.web.tsx` (web) → Leaflet + tiles do OpenStreetMap (grátis, sem API key)
+- **`web.output: "single"`:** a saída web é SPA (sem SSR). Necessário porque o Leaflet acessa `window` no carregamento, o que quebra no server-side rendering do modo `static`.
