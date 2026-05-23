@@ -3,10 +3,10 @@ export type Brand = 'Shell' | 'Ipiranga' | 'Petrobras' | 'Atem' | 'Branded';
 export type FuelType = 'comum' | 'aditivada' | 'etanol' | 'diesel' | 'gnv';
 
 export interface FuelPrices {
-  comum: number;
-  aditivada: number;
-  etanol: number;
-  diesel: number;
+  comum: number | null;
+  aditivada: number | null;
+  etanol: number | null;
+  diesel: number | null;
   gnv: number | null;
 }
 
