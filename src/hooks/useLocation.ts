@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 import { Coordinate } from '../services/types';
@@ -18,8 +18,7 @@ export function useLocation() {
     permissionDenied: false,
   });
 
-  async function requestLocation() {
-    setState((prev) => ({ ...prev, loading: true }));
+  const loadLocation = useCallback(async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== 'granted') {
@@ -43,11 +42,17 @@ export function useLocation() {
       loading: false,
       permissionDenied: false,
     });
-  }
+  }, []);
+
+  const requestLocation = useCallback(() => {
+    setState((prev) => ({ ...prev, loading: true }));
+    loadLocation();
+  }, [loadLocation]);
 
   useEffect(() => {
-    requestLocation();
-  }, []);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadLocation();
+  }, [loadLocation]);
 
   return { ...state, requestLocation };
 }
