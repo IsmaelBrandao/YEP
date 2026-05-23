@@ -17,15 +17,28 @@ function priceIcon(label: string, color: string) {
   return L.divIcon({
     className: 'yep-price-marker',
     html: `<div style="
-      background:${color};
-      color:#fff;
-      font:700 12px system-ui,sans-serif;
-      padding:3px 8px;
-      border-radius:6px;
-      white-space:nowrap;
-      box-shadow:0 1px 3px rgba(0,0,0,0.3);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
       transform:translate(-50%,-100%);
-    ">${label}</div>`,
+    ">
+      <div style="
+        background:#fff;
+        color:${color};
+        font:800 12px system-ui,sans-serif;
+        padding:3px 9px;
+        border-radius:999px;
+        border:1.5px solid ${color};
+        white-space:nowrap;
+        box-shadow:0 2px 6px rgba(0,0,0,0.25);
+        margin-bottom:-3px;
+        z-index:2;
+      ">${label}</div>
+      <svg width="30" height="40" viewBox="0 0 24 32" style="filter:drop-shadow(0 2px 3px rgba(0,0,0,0.35))">
+        <path d="M12 0C5.4 0 0 5.2 0 11.6 0 20 12 32 12 32s12-12 12-20.4C24 5.2 18.6 0 12 0z" fill="${color}" stroke="#fff" stroke-width="2"/>
+        <circle cx="12" cy="11.5" r="4" fill="#fff"/>
+      </svg>
+    </div>`,
     iconSize: [0, 0],
     iconAnchor: [0, 0],
   });
