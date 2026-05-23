@@ -1,4 +1,4 @@
-# YEP
+# YEP — Comparador de preços de combustível
 
 App mobile que mostra no mapa os postos de combustível mais próximos com preço atualizado, permitindo filtrar por marca, tipo de combustível e serviços. MVP de startup fictícia para a disciplina de Desenvolvimento Mobile (UniC, Fortaleza-CE).
 
