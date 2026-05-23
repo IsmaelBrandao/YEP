@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
@@ -10,8 +11,9 @@ import {
   View,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 
+import { useAuth } from '../src/hooks/AuthContext';
 import { colors, fontSize, radius, spacing } from '../src/styles/theme';
 
 type FocusField = 'email' | 'password' | null;
@@ -23,17 +25,22 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [focused, setFocused] = useState<FocusField>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const { signIn } = useAuth();
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!email.trim() || !password.trim()) {
       Alert.alert('Campos obrigatórios', 'Preencha e-mail e senha para continuar.');
       return;
     }
+    setSubmitting(true);
+    const { error } = await signIn(email.trim(), password);
+    setSubmitting(false);
+    if (error) {
+      Alert.alert('Não foi possível entrar', error);
+      return;
+    }
     router.replace('/(tabs)/map');
-  }
-
-  function handlePlaceholder(message: string) {
-    Alert.alert('Em breve', message);
   }
 
   return (
@@ -94,19 +101,31 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => handlePlaceholder('Recuperação de senha em desenvolvimento.')}>
-            <Text style={styles.link}>Esqueci a senha</Text>
+          <Link href="/forgot-password" asChild>
+            <TouchableOpacity>
+              <Text style={styles.link}>Esqueci a senha</Text>
+            </TouchableOpacity>
+          </Link>
+
+          <TouchableOpacity
+            style={[styles.button, submitting && styles.buttonDisabled]}
+            onPress={handleLogin}
+            disabled={submitting}
+          >
+            {submitting ? (
+              <ActivityIndicator color={colors.white} />
+            ) : (
+              <Text style={styles.buttonText}>Entrar</Text>
+            )}
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Entrar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => handlePlaceholder('Cadastro em desenvolvimento.')}>
-            <Text style={styles.footerLink}>
-              Não tem conta? <Text style={styles.footerLinkStrong}>Criar conta</Text>
-            </Text>
-          </TouchableOpacity>
+          <Link href="/signup" asChild>
+            <TouchableOpacity>
+              <Text style={styles.footerLink}>
+                Não tem conta? <Text style={styles.footerLinkStrong}>Criar conta</Text>
+              </Text>
+            </TouchableOpacity>
+          </Link>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -199,7 +218,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
     borderRadius: radius.md,
+    justifyContent: 'center',
+    minHeight: 50,
     paddingVertical: spacing.md,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
     color: colors.white,

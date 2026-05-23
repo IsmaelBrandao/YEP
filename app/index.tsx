@@ -3,9 +3,11 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
+import { useAuth } from '../src/hooks/AuthContext';
 import { colors, fontSize, spacing } from '../src/styles/theme';
 
 export default function SplashScreen() {
+  const { session, loading } = useAuth();
   const [opacity] = useState(() => new Animated.Value(0));
   const [scale] = useState(() => new Animated.Value(0.8));
 
@@ -22,13 +24,18 @@ export default function SplashScreen() {
         useNativeDriver: true,
       }),
     ]).start();
+  }, [opacity, scale]);
 
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
     const timer = setTimeout(() => {
-      router.replace('/login');
-    }, 1500);
+      router.replace(session ? '/(tabs)/map' : '/login');
+    }, 1200);
 
     return () => clearTimeout(timer);
-  }, [opacity, scale]);
+  }, [loading, session]);
 
   return (
     <View style={styles.container}>
