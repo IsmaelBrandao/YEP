@@ -60,7 +60,7 @@ Abra no Expo Go (Android/iOS) ou em um emulador. O mapa (`react-native-maps`) e 
 
 ## Decisões de arquitetura
 
-- **Sem backend:** todos os dados vêm de `src/services/stations.ts` (15 postos fictícios em bairros de Fortaleza, com coordenadas aproximadas — não são locais reais de postos). `src/services/api.ts` é só a instância axios pronta para uso futuro.
+- **Dados reais, sem backend:** `src/services/stations.ts` é um snapshot gerado por `scripts/build-stations.mjs`, que cruza os **dados abertos da ANP** (preços oficiais das últimas 4 semanas, ~68 postos de Fortaleza) com **geocoding do OpenStreetMap/Nominatim** (a ANP não fornece coordenadas). O script tem cache de geocoding em `scripts/.geocode-cache.json`. `src/services/api.ts` é a instância axios pronta para uso futuro. Limitação: a ANP não traz serviços (conveniência/calibragem/lavagem) nem fotos — esses campos ficam padrão.
 - **Sem auth real:** o login valida apenas que os campos não estão vazios e navega para as tabs.
 - **Estado global:** favoritos e histórico de reportes ficam em `AppDataContext` (useContext) e são persistidos no AsyncStorage.
 - **Distância:** calculada no cliente via Haversine (`src/services/geo.ts`) a partir da localização do usuário.

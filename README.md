@@ -53,6 +53,14 @@ src/
   styles/       theme (cores, espaçamentos, helpers)
 ```
 
-> Os dados são um mock com 15 postos fictícios espalhados por bairros de Fortaleza, com coordenadas aproximadas (`src/services/stations.ts`). Não há backend nem autenticação real — o login é placeholder.
+> Os dados de postos e preços são **reais**: vêm do levantamento de preços de combustíveis dos **dados abertos da ANP** (últimas 4 semanas, Fortaleza-CE), com os endereços geocodificados via **OpenStreetMap (Nominatim)**. O dataset é gerado por `scripts/build-stations.mjs` e fica embutido em `src/services/stations.ts` (snapshot, sem backend). Não há autenticação real — o login é placeholder.
+
+### Atualizar os dados de preços
+
+```bash
+# baixe os 2 CSVs da ANP (gasolina/etanol e diesel/gnv) para a pasta temporária
+# e rode o gerador (geocodifica os endereços com cache em scripts/.geocode-cache.json):
+node scripts/build-stations.mjs
+```
 
 Mais detalhes de arquitetura e convenções em [`AGENTS.md`](./AGENTS.md).
