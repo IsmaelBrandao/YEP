@@ -60,7 +60,7 @@ Abra no Expo Go (Android/iOS) ou em um emulador. O mapa (`react-native-maps`) e 
 
 ## Decisões de arquitetura
 
-- **Sem backend:** todos os dados vêm de `src/services/stations.ts` (15 postos reais de Fortaleza). `src/services/api.ts` é só a instância axios pronta para uso futuro.
+- **Sem backend:** todos os dados vêm de `src/services/stations.ts` (15 postos fictícios em bairros de Fortaleza, com coordenadas aproximadas — não são locais reais de postos). `src/services/api.ts` é só a instância axios pronta para uso futuro.
 - **Sem auth real:** o login valida apenas que os campos não estão vazios e navega para as tabs.
 - **Estado global:** favoritos e histórico de reportes ficam em `AppDataContext` (useContext) e são persistidos no AsyncStorage.
 - **Distância:** calculada no cliente via Haversine (`src/services/geo.ts`) a partir da localização do usuário.

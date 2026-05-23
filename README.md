@@ -53,6 +53,6 @@ src/
   styles/       theme (cores, espaçamentos, helpers)
 ```
 
-> Os dados são um mock com 15 postos reais de Fortaleza (`src/services/stations.ts`). Não há backend nem autenticação real — o login é placeholder.
+> Os dados são um mock com 15 postos fictícios espalhados por bairros de Fortaleza, com coordenadas aproximadas (`src/services/stations.ts`). Não há backend nem autenticação real — o login é placeholder.
 
 Mais detalhes de arquitetura e convenções em [`AGENTS.md`](./AGENTS.md).
