@@ -53,7 +53,9 @@ export default function ProfileScreen() {
             >
               <MaterialCommunityIcons name="gas-station" size={20} color={colors.primary} />
               <Text style={styles.rowText}>{station!.name}</Text>
-              <Text style={styles.rowPrice}>{formatPrice(station!.prices.comum)}</Text>
+              <Text style={styles.rowPrice}>
+                {station!.prices.comum == null ? '—' : formatPrice(station!.prices.comum)}
+              </Text>
             </TouchableOpacity>
           ))
         )}
