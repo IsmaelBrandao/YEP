@@ -1,56 +1,58 @@
-# Welcome to your Expo app 👋
+# YEP ⛽
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> Comparador de preços de combustível perto de você.
 
-## Get started
+App mobile que mostra no mapa os postos de combustível mais próximos com preço atualizado, permitindo filtrar por marca, tipo de combustível e serviços. MVP de startup fictícia desenvolvido para a disciplina de **Desenvolvimento Mobile** (UniC, Fortaleza-CE).
 
-1. Install dependencies
+Inspirações reais: GasBuddy (EUA), Waze e o app Menor Preço Brasil (CONFAZ).
 
-   ```bash
-   npm install
-   ```
+## Funcionalidades
 
-2. Start the app
+- 🗺️ **Mapa** com os postos próximos e marcadores coloridos por preço (verde = mais barato, vermelho = mais caro)
+- 📋 **Lista** ordenável por menor preço ou distância
+- 🔎 **Filtros** por marca (Shell, Ipiranga, Petrobras/BR, Atem) e tipo de combustível
+- 📍 **Detalhe do posto** com tabela de preços, serviços, rota no Google Maps e reporte de preço com foto do cupom
+- ⭐ **Favoritos** e histórico de reportes persistidos no dispositivo
+- 👤 **Perfil** com combustível padrão e raio de busca
 
-   ```bash
-   npx expo start
-   ```
+## Stack
 
-In the output, you'll find options to open the app in a
+- Expo SDK 56 + Expo Router (file-based routing)
+- TypeScript
+- React Native 0.85 / React 19
+- axios · expo-location · react-native-maps · expo-image-picker · async-storage
+- Estado com `useState` / `useEffect` / `useContext`
+- Estilização com `StyleSheet` puro
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Como rodar
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Abra no **Expo Go** (Android/iOS) ou em um emulador. O mapa e a câmera não funcionam no navegador.
 
-### Other setup steps
+### Scripts
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+| Comando | O que faz |
+|---|---|
+| `npm start` | inicia o servidor de desenvolvimento |
+| `npm run android` | abre no emulador/dispositivo Android |
+| `npm run ios` | abre no simulador iOS (macOS) |
+| `npm run lint` | roda o ESLint |
 
-## Learn more
+## Estrutura
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+app/        rotas (expo-router): splash, login, tabs e detalhe do posto
+src/
+  components/   PriceTag, FilterBar, StationCard
+  services/     types, mock de postos, geo (Haversine), axios
+  hooks/        useLocation, useStations, useFilters, AppDataContext
+  styles/       theme (cores, espaçamentos, helpers)
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+> Os dados são um mock com 15 postos reais de Fortaleza (`src/services/stations.ts`). Não há backend nem autenticação real — o login é placeholder.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Mais detalhes de arquitetura e convenções em [`AGENTS.md`](./AGENTS.md).
