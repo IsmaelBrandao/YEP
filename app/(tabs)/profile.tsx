@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAppData } from '../../src/hooks/AppDataContext';
+import { useAuth } from '../../src/hooks/AuthContext';
 import { getStationById } from '../../src/services/stations';
 import { FuelType } from '../../src/services/types';
 import { colors, fontSize, formatPrice, radius, spacing } from '../../src/styles/theme';
@@ -21,8 +22,17 @@ const FUELS: { value: FuelType; label: string }[] = [
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const { favorites, reports } = useAppData();
+  const { user, signOut } = useAuth();
   const [defaultFuel, setDefaultFuel] = useState<FuelType>('comum');
   const [radius_, setRadius] = useState(5);
+
+  const displayName = (user?.user_metadata?.name as string | undefined) ?? 'Usuário';
+  const displayEmail = user?.email ?? '';
+
+  async function handleSignOut() {
+    await signOut();
+    router.replace('/login');
+  }
 
   const favoriteStations = favorites
     .map((id) => getStationById(id))
@@ -37,8 +47,8 @@ export default function ProfileScreen() {
         <View style={styles.avatar}>
           <MaterialCommunityIcons name="account" size={48} color={colors.white} />
         </View>
-        <Text style={styles.name}>Ismael Estudante</Text>
-        <Text style={styles.email}>ismael@unic.edu.br</Text>
+        <Text style={styles.name}>{displayName}</Text>
+        <Text style={styles.email}>{displayEmail}</Text>
       </View>
 
       <Section title="Postos favoritos">
@@ -110,7 +120,7 @@ export default function ProfileScreen() {
         />
       </Section>
 
-      <TouchableOpacity style={styles.logout} onPress={() => router.replace('/login')}>
+      <TouchableOpacity style={styles.logout} onPress={handleSignOut}>
         <MaterialCommunityIcons name="logout" size={20} color={colors.expensive} />
         <Text style={styles.logoutText}>Sair</Text>
       </TouchableOpacity>
