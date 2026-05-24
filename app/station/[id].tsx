@@ -81,20 +81,18 @@ export default function StationDetailScreen() {
     }
   }
 
-  function submitReport() {
+  async function submitReport() {
     const value = Number(reportPrice.replace(',', '.'));
     if (!reportPrice.trim() || Number.isNaN(value) || value <= 0) {
       Alert.alert('Preço inválido', 'Informe um preço válido.');
       return;
     }
-    addReport({
-      id: String(Date.now()),
+    await addReport({
       stationId: station!.id,
       stationName: station!.name,
       fuel: reportFuel,
       price: value,
       photoUri,
-      reportedAt: new Date().toISOString(),
     });
     setModalVisible(false);
     setReportPrice('');
