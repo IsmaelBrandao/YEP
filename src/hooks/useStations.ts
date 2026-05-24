@@ -19,9 +19,10 @@ interface UseStationsParams {
   origin: Coordinate;
   filters: Filters;
   sortMode?: SortMode;
+  radiusKm?: number;
 }
 
-export function useStations({ origin, filters, sortMode = 'distance' }: UseStationsParams) {
+export function useStations({ origin, filters, sortMode = 'distance', radiusKm }: UseStationsParams) {
   return useMemo<StationWithDistance[]>(() => {
     const withDistance: StationWithDistance[] = allStations.map((station) => ({
       ...station,
@@ -29,6 +30,9 @@ export function useStations({ origin, filters, sortMode = 'distance' }: UseStati
     }));
 
     const filtered = withDistance.filter((station) => {
+      if (radiusKm != null && station.distanceKm > radiusKm) {
+        return false;
+      }
       if (filters.brands.length > 0 && !filters.brands.includes(station.brand)) {
         return false;
       }
@@ -49,5 +53,5 @@ export function useStations({ origin, filters, sortMode = 'distance' }: UseStati
       }
       return a.distanceKm - b.distanceKm;
     });
-  }, [origin, filters, sortMode]);
+  }, [origin, filters, sortMode, radiusKm]);
 }
