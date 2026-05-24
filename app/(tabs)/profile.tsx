@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -7,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAppData } from '../../src/hooks/AppDataContext';
 import { useAuth } from '../../src/hooks/AuthContext';
+import { useSettings } from '../../src/hooks/SettingsContext';
 import { getStationById } from '../../src/services/stations';
 import { FuelType } from '../../src/services/types';
 import { colors, fontSize, formatPrice, radius, spacing } from '../../src/styles/theme';
@@ -23,8 +23,7 @@ export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
   const { favorites, reports } = useAppData();
   const { user, signOut } = useAuth();
-  const [defaultFuel, setDefaultFuel] = useState<FuelType>('comum');
-  const [radius_, setRadius] = useState(5);
+  const { defaultFuel, setDefaultFuel, searchRadius, setSearchRadius } = useSettings();
 
   const displayName = (user?.user_metadata?.name as string | undefined) ?? 'Usuário';
   const displayEmail = user?.email ?? '';
@@ -107,13 +106,13 @@ export default function ProfileScreen() {
         </View>
       </Section>
 
-      <Section title={`Raio de busca: ${radius_} km`}>
+      <Section title={`Raio de busca: ${searchRadius} km`}>
         <Slider
           minimumValue={1}
           maximumValue={20}
           step={1}
-          value={radius_}
-          onValueChange={setRadius}
+          value={searchRadius}
+          onValueChange={setSearchRadius}
           minimumTrackTintColor={colors.primary}
           maximumTrackTintColor={colors.border}
           thumbTintColor={colors.primary}

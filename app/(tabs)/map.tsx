@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -6,14 +6,20 @@ import FilterBar from '../../src/components/FilterBar';
 import StationsMap from '../../src/components/StationsMap';
 import { useFilters } from '../../src/hooks/useFilters';
 import { useLocation } from '../../src/hooks/useLocation';
+import { useSettings } from '../../src/hooks/SettingsContext';
 import { useStations } from '../../src/hooks/useStations';
 import { colors, spacing } from '../../src/styles/theme';
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const { coordinate, loading } = useLocation();
+  const { defaultFuel, searchRadius } = useSettings();
   const { filters, toggleBrand, setFuel } = useFilters();
-  const stations = useStations({ origin: coordinate, filters });
+  const stations = useStations({ origin: coordinate, filters, radiusKm: searchRadius });
+
+  useEffect(() => {
+    setFuel(defaultFuel);
+  }, [defaultFuel, setFuel]);
 
   const priceRange = useMemo(() => {
     const prices = stations

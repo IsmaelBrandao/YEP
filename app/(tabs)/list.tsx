@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,6 +7,7 @@ import FilterBar from '../../src/components/FilterBar';
 import StationCard from '../../src/components/StationCard';
 import { useFilters } from '../../src/hooks/useFilters';
 import { useLocation } from '../../src/hooks/useLocation';
+import { useSettings } from '../../src/hooks/SettingsContext';
 import { useStations } from '../../src/hooks/useStations';
 import { SortMode } from '../../src/services/types';
 import { colors, fontSize, priceColor, radius, spacing } from '../../src/styles/theme';
@@ -15,8 +16,13 @@ export default function ListScreen() {
   const insets = useSafeAreaInsets();
   const [sortMode, setSortMode] = useState<SortMode>('price');
   const { coordinate } = useLocation();
+  const { defaultFuel, searchRadius } = useSettings();
   const { filters, toggleBrand, setFuel } = useFilters();
-  const stations = useStations({ origin: coordinate, filters, sortMode });
+  const stations = useStations({ origin: coordinate, filters, sortMode, radiusKm: searchRadius });
+
+  useEffect(() => {
+    setFuel(defaultFuel);
+  }, [defaultFuel, setFuel]);
 
   const priceRange = useMemo(() => {
     const prices = stations
