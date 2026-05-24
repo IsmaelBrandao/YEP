@@ -184,6 +184,65 @@ export function getStationById(id: string): Station | undefined {
 `;
 }
 
+const SNAP_RADIUS_KM = 0.5;
+
+function haversine(a, b) {
+  const R = 6371;
+  const toRad = (d) => (d * Math.PI) / 180;
+  const dLat = toRad(b.latitude - a.latitude);
+  const dLon = toRad(b.longitude - a.longitude);
+  const lat1 = toRad(a.latitude);
+  const lat2 = toRad(b.latitude);
+  const h =
+    Math.sin(dLat / 2) ** 2 + Math.sin(dLon / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2);
+  return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+async function fetchOsmFuelNodes() {
+  const query = '[out:json][timeout:25];(node["amenity"="fuel"](around:14000,-3.7319,-38.5267););out body;';
+  const headers = {
+    'User-Agent': 'YEP-App/1.0 (student project; ismaelbrandao2003@gmail.com)',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Accept: 'application/json',
+  };
+  const res = await fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    headers,
+    body: 'data=' + encodeURIComponent(query),
+  });
+  const data = await res.json();
+  return data.elements.map((e) => ({ latitude: e.lat, longitude: e.lon }));
+}
+
+// Snap cada posto para o no de combustivel real do OSM mais proximo (atribuicao
+// gulosa por menor distancia, cada no usado uma unica vez) dentro do raio.
+function snapToOsm(stations, nodes) {
+  const pairs = [];
+  stations.forEach((station, si) => {
+    nodes.forEach((node, ni) => {
+      const dist = haversine(station.coordinate, node);
+      if (dist <= SNAP_RADIUS_KM) {
+        pairs.push({ si, ni, dist });
+      }
+    });
+  });
+  pairs.sort((a, b) => a.dist - b.dist);
+
+  const usedStation = new Set();
+  const usedNode = new Set();
+  let snapped = 0;
+  for (const pair of pairs) {
+    if (usedStation.has(pair.si) || usedNode.has(pair.ni)) {
+      continue;
+    }
+    usedStation.add(pair.si);
+    usedNode.add(pair.ni);
+    stations[pair.si].coordinate = nodes[pair.ni];
+    snapped += 1;
+  }
+  return snapped;
+}
+
 async function main() {
   const rows = [...readStations(GAS_CSV), ...readStations(DIESEL_CSV)];
   const grouped = groupByStation(rows);
@@ -198,10 +257,14 @@ async function main() {
     }
     const updatedAt = Math.max(...Object.values(station.dates));
     resolved.push({ ...station, coordinate, updatedAt });
-    console.log(`  [ok] ${titleCase(station.revenda)} (${station.bairro})`);
   }
-
   console.log(`Geocodificados: ${resolved.length}/${grouped.length}`);
+
+  const nodes = await fetchOsmFuelNodes();
+  console.log(`Postos reais no OSM (Overpass): ${nodes.length}`);
+  const snapped = snapToOsm(resolved, nodes);
+  console.log(`Snapados para a posicao real do OSM: ${snapped}/${resolved.length}`);
+
   fs.writeFileSync(OUT, serialize(resolved));
   console.log(`Escrito: ${OUT}`);
 }
