@@ -5,6 +5,9 @@ import api from './api';
 const TOKEN = process.env.EXPO_PUBLIC_MAPILLARY_TOKEN ?? '';
 const BBOX_DELTA = 0.0009; // ~100m ao redor do ponto
 
+// cache em memória por posto: a mesma localização sempre devolve a mesma foto
+const cache = new Map<string, string | null>();
+
 interface MapillaryImage {
   thumb_1024_url?: string;
   computed_geometry?: { coordinates: [number, number] };
@@ -17,6 +20,10 @@ export async function fetchStationPhoto(
   if (!TOKEN) {
     return null;
   }
+  const key = `${latitude.toFixed(5)},${longitude.toFixed(5)}`;
+  if (cache.has(key)) {
+    return cache.get(key) ?? null;
+  }
   const bbox = [
     longitude - BBOX_DELTA,
     latitude - BBOX_DELTA,
@@ -24,6 +31,7 @@ export async function fetchStationPhoto(
     latitude + BBOX_DELTA,
   ].join(',');
 
+  let result: string | null = null;
   try {
     const { data } = await api.get<{ data: MapillaryImage[] }>(
       'https://graph.mapillary.com/images',
@@ -33,10 +41,6 @@ export async function fetchStationPhoto(
       },
     );
     const images = data.data ?? [];
-    if (images.length === 0) {
-      return null;
-    }
-    let best: MapillaryImage | null = null;
     let bestDist = Infinity;
     for (const image of images) {
       const coords = image.computed_geometry?.coordinates;
@@ -45,11 +49,12 @@ export async function fetchStationPhoto(
         : Infinity;
       if (image.thumb_1024_url && dist < bestDist) {
         bestDist = dist;
-        best = image;
+        result = image.thumb_1024_url;
       }
     }
-    return best?.thumb_1024_url ?? null;
   } catch {
-    return null;
+    result = null;
   }
+  cache.set(key, result);
+  return result;
 }
