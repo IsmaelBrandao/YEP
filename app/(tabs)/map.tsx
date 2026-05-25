@@ -12,7 +12,7 @@ import { colors, spacing } from '../../src/styles/theme';
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
-  const { coordinate, loading } = useLocation();
+  const { coordinate, loading, requestLocation } = useLocation();
   const { defaultFuel, searchRadius } = useSettings();
   const { filters, toggleBrand, setFuel } = useFilters();
   const stations = useStations({ origin: coordinate, filters, radiusKm: searchRadius });
@@ -49,7 +49,15 @@ export default function MapScreen() {
 
   return (
     <View style={styles.container}>
-      <StationsMap stations={stations} region={region} fuel={filters.fuel} priceRange={priceRange} />
+      <StationsMap
+        stations={stations}
+        region={region}
+        userCoordinate={coordinate}
+        radiusKm={searchRadius}
+        fuel={filters.fuel}
+        priceRange={priceRange}
+        onRecenter={requestLocation}
+      />
 
       <View style={[styles.topBar, { paddingTop: insets.top + spacing.sm }]}>
         <FilterBar filters={filters} onToggleBrand={toggleBrand} onSetFuel={setFuel} />

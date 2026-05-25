@@ -1,23 +1,40 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Circle, Marker, Region } from 'react-native-maps';
 import { router } from 'expo-router';
 
-import { FuelType, StationWithDistance } from '../services/types';
+import { Coordinate, FuelType, StationWithDistance } from '../services/types';
 import { colors, formatPrice, priceColor, radius, spacing } from '../styles/theme';
 
 interface StationsMapProps {
   stations: StationWithDistance[];
   region: Region;
+  userCoordinate: Coordinate;
+  radiusKm: number;
   fuel: FuelType;
   priceRange: { min: number; max: number };
+  onRecenter: () => void;
 }
 
-export default function StationsMap({ stations, region, fuel, priceRange }: StationsMapProps) {
+export default function StationsMap({
+  stations,
+  region,
+  userCoordinate,
+  radiusKm,
+  fuel,
+  priceRange,
+  onRecenter,
+}: StationsMapProps) {
   const mapRef = useRef<MapView>(null);
 
+  useEffect(() => {
+    mapRef.current?.animateToRegion(region, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userCoordinate.latitude, userCoordinate.longitude]);
+
   function recenter() {
+    onRecenter();
     mapRef.current?.animateToRegion(region, 500);
   }
 
@@ -50,6 +67,13 @@ export default function StationsMap({ stations, region, fuel, priceRange }: Stat
             </Marker>
           );
         })}
+        <Circle
+          center={userCoordinate}
+          radius={radiusKm * 1000}
+          strokeColor={colors.primary}
+          strokeWidth={2}
+          fillColor="rgba(0,117,74,0.08)"
+        />
       </MapView>
 
       <TouchableOpacity style={styles.fab} onPress={recenter} activeOpacity={0.85}>

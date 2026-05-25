@@ -1,16 +1,20 @@
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { useEffect, useState } from 'react';
+import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
 import { router } from 'expo-router';
 
-import { FuelType, StationWithDistance } from '../services/types';
+import { Coordinate, FuelType, StationWithDistance } from '../services/types';
 import { colors, formatPrice, priceColor } from '../styles/theme';
 import 'leaflet/dist/leaflet.css';
 
 interface StationsMapProps {
   stations: StationWithDistance[];
   region: { latitude: number; longitude: number };
+  userCoordinate: Coordinate;
+  radiusKm: number;
   fuel: FuelType;
   priceRange: { min: number; max: number };
+  onRecenter: () => void;
 }
 
 function priceIcon(label: string, color: string) {
@@ -44,10 +48,46 @@ function priceIcon(label: string, color: string) {
   });
 }
 
-export default function StationsMap({ stations, region, fuel, priceRange }: StationsMapProps) {
+function userIcon() {
+  return L.divIcon({
+    className: 'yep-user-marker',
+    html: `<div style="
+      width:18px;height:18px;border-radius:50%;
+      background:#1d6fe0;border:3px solid #fff;
+      box-shadow:0 0 0 2px rgba(29,111,224,0.35),0 1px 3px rgba(0,0,0,0.4);
+      transform:translate(-50%,-50%);
+    "></div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
+  });
+}
+
+export default function StationsMap({
+  stations,
+  region,
+  userCoordinate,
+  radiusKm,
+  fuel,
+  priceRange,
+  onRecenter,
+}: StationsMapProps) {
+  const [map, setMap] = useState<L.Map | null>(null);
+
+  useEffect(() => {
+    if (map) {
+      map.setView([userCoordinate.latitude, userCoordinate.longitude]);
+    }
+  }, [map, userCoordinate.latitude, userCoordinate.longitude]);
+
+  function handleRecenter() {
+    onRecenter();
+    map?.setView([userCoordinate.latitude, userCoordinate.longitude], 14);
+  }
+
   return (
-    <div style={{ flex: 1, height: '100%', width: '100%' }}>
+    <div style={{ position: 'relative', flex: 1, height: '100%', width: '100%' }}>
       <MapContainer
+        ref={setMap}
         center={[region.latitude, region.longitude]}
         zoom={12}
         style={{ height: '100%', width: '100%' }}
@@ -56,6 +96,17 @@ export default function StationsMap({ stations, region, fuel, priceRange }: Stat
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
+
+        <Circle
+          center={[userCoordinate.latitude, userCoordinate.longitude]}
+          radius={radiusKm * 1000}
+          pathOptions={{ color: colors.primary, fillColor: colors.primary, fillOpacity: 0.08, weight: 2 }}
+        />
+        <Marker
+          position={[userCoordinate.latitude, userCoordinate.longitude]}
+          icon={userIcon()}
+        />
+
         {stations.map((station) => {
           const price = station.prices[fuel];
           const color =
@@ -77,6 +128,33 @@ export default function StationsMap({ stations, region, fuel, priceRange }: Stat
           );
         })}
       </MapContainer>
+
+      <button onClick={handleRecenter} title="Minha localização" style={recenterButtonStyle}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <line x1="12" y1="2" x2="12" y2="5" />
+          <line x1="12" y1="19" x2="12" y2="22" />
+          <line x1="2" y1="12" x2="5" y2="12" />
+          <line x1="19" y1="12" x2="22" y2="12" />
+        </svg>
+      </button>
     </div>
   );
 }
+
+const recenterButtonStyle: React.CSSProperties = {
+  position: 'absolute',
+  right: 16,
+  bottom: 24,
+  width: 48,
+  height: 48,
+  borderRadius: 999,
+  border: 'none',
+  backgroundColor: colors.primary,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+  zIndex: 1000,
+};
