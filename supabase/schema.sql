@@ -49,3 +49,38 @@ create policy "reports_insert_own"
 
 create index if not exists reports_user_created_idx
   on public.reports (user_id, created_at desc);
+
+-- ── Serviços do posto (crowdsourcing) ────────────────────────────────────
+-- Cada usuário registra os serviços que viu em um posto. O app agrega os
+-- registros de todos (leitura pública) para mostrar o consenso da comunidade.
+create table if not exists public.station_services (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  station_id text not null,
+  conveniencia boolean not null default false,
+  calibragem boolean not null default false,
+  lavagem boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, station_id)
+);
+
+alter table public.station_services enable row level security;
+
+create policy "station_services_select_all"
+  on public.station_services for select
+  using (true);
+
+create policy "station_services_insert_own"
+  on public.station_services for insert
+  with check (auth.uid() = user_id);
+
+create policy "station_services_update_own"
+  on public.station_services for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+create policy "station_services_delete_own"
+  on public.station_services for delete
+  using (auth.uid() = user_id);
+
+create index if not exists station_services_station_idx
+  on public.station_services (station_id);
