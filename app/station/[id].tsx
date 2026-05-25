@@ -18,8 +18,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAppData } from '../../src/hooks/AppDataContext';
 import { useLocation } from '../../src/hooks/useLocation';
+import { useStationsData } from '../../src/hooks/StationsContext';
 import { distanceKm } from '../../src/services/geo';
-import { getStationById } from '../../src/services/stations';
 import { FuelType } from '../../src/services/types';
 import { colors, fontSize, formatDistance, formatPrice, radius, spacing } from '../../src/styles/theme';
 
@@ -36,8 +36,9 @@ export default function StationDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { coordinate } = useLocation();
   const { isFavorite, toggleFavorite, addReport } = useAppData();
+  const { getById } = useStationsData();
 
-  const station = getStationById(id);
+  const station = getById(id);
   const [modalVisible, setModalVisible] = useState(false);
   const [reportPrice, setReportPrice] = useState('');
   const [reportFuel, setReportFuel] = useState<FuelType>('comum');

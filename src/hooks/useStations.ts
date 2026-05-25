@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { distanceKm } from '../services/geo';
-import { stations as allStations } from '../services/stations';
 import {
   Coordinate,
   Filters,
@@ -9,6 +8,7 @@ import {
   SortMode,
   StationWithDistance,
 } from '../services/types';
+import { useStationsData } from './StationsContext';
 
 function fuelPrice(station: StationWithDistance, fuel: FuelType): number {
   const value = station.prices[fuel];
@@ -23,6 +23,8 @@ interface UseStationsParams {
 }
 
 export function useStations({ origin, filters, sortMode = 'distance', radiusKm }: UseStationsParams) {
+  const { stations: allStations } = useStationsData();
+
   return useMemo<StationWithDistance[]>(() => {
     const withDistance: StationWithDistance[] = allStations.map((station) => ({
       ...station,
@@ -53,5 +55,5 @@ export function useStations({ origin, filters, sortMode = 'distance', radiusKm }
       }
       return a.distanceKm - b.distanceKm;
     });
-  }, [origin, filters, sortMode, radiusKm]);
+  }, [allStations, origin, filters, sortMode, radiusKm]);
 }

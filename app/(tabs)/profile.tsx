@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppData } from '../../src/hooks/AppDataContext';
 import { useAuth } from '../../src/hooks/AuthContext';
 import { useSettings } from '../../src/hooks/SettingsContext';
-import { getStationById } from '../../src/services/stations';
+import { useStationsData } from '../../src/hooks/StationsContext';
 import { FuelType } from '../../src/services/types';
 import { colors, fontSize, formatPrice, radius, spacing } from '../../src/styles/theme';
 
@@ -24,6 +24,7 @@ export default function ProfileScreen() {
   const { favorites, reports } = useAppData();
   const { user, signOut } = useAuth();
   const { defaultFuel, setDefaultFuel, searchRadius, setSearchRadius } = useSettings();
+  const { getById } = useStationsData();
 
   const displayName = (user?.user_metadata?.name as string | undefined) ?? 'Usuário';
   const displayEmail = user?.email ?? '';
@@ -34,7 +35,7 @@ export default function ProfileScreen() {
   }
 
   const favoriteStations = favorites
-    .map((id) => getStationById(id))
+    .map((id) => getById(id))
     .filter((station) => station != null);
 
   return (
