@@ -40,6 +40,39 @@ const PRODUCT_MAP = {
   GNV: 'gnv',
 };
 
+const BRAND_LABEL = {
+  Shell: 'Shell',
+  Ipiranga: 'Ipiranga',
+  Petrobras: 'Posto BR',
+  Atem: 'Atem',
+  Branded: null,
+};
+
+function friendlyName(station) {
+  const bairro = titleCase(station.bairro);
+  const label = BRAND_LABEL[station.brand];
+  return label ? `${label} · ${bairro}` : `Posto · ${bairro}`;
+}
+
+// Define station.displayName amigavel, com sufixo numerico quando repetir.
+function assignNames(stations) {
+  const counts = {};
+  for (const station of stations) {
+    const base = friendlyName(station);
+    counts[base] = (counts[base] ?? 0) + 1;
+  }
+  const seen = {};
+  for (const station of stations) {
+    const base = friendlyName(station);
+    if (counts[base] > 1) {
+      seen[base] = (seen[base] ?? 0) + 1;
+      station.displayName = `${base} (${seen[base]})`;
+    } else {
+      station.displayName = base;
+    }
+  }
+}
+
 function titleCase(value) {
   return value
     .toLowerCase()
@@ -157,7 +190,7 @@ function serialize(stations) {
       const services = `{ conveniencia: false, calibragem: false, lavagem: false, gnv: ${s.prices.gnv != null} }`;
       return `  {
     id: '${index + 1}',
-    name: ${JSON.stringify(titleCase(s.revenda))},
+    name: ${JSON.stringify(s.displayName)},
     brand: '${s.brand}',
     neighborhood: ${JSON.stringify(titleCase(s.bairro))},
     address: ${JSON.stringify(`${titleCase(s.rua)}, ${s.numero} - ${titleCase(s.bairro)}`)},
@@ -190,7 +223,7 @@ export function getStationById(id: string): Station | undefined {
 function toStationObjects(stations) {
   return stations.map((s, index) => ({
     id: String(index + 1),
-    name: titleCase(s.revenda),
+    name: s.displayName,
     brand: s.brand,
     neighborhood: titleCase(s.bairro),
     address: `${titleCase(s.rua)}, ${s.numero} - ${titleCase(s.bairro)}`,
@@ -287,6 +320,8 @@ async function main() {
   console.log(`Postos reais no OSM (Overpass): ${nodes.length}`);
   const snapped = snapToOsm(resolved, nodes);
   console.log(`Snapados para a posicao real do OSM: ${snapped}/${resolved.length}`);
+
+  assignNames(resolved);
 
   fs.writeFileSync(OUT, serialize(resolved));
   fs.writeFileSync(JSON_OUT, JSON.stringify(toStationObjects(resolved), null, 2) + '\n');

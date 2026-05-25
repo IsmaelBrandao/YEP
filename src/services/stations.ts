@@ -6,7 +6,7 @@ import { Station } from './types';
 export const stations: Station[] = [
   {
     id: '1',
-    name: "Dias Comercio De Derivados De Petroleo Ltda",
+    name: "Shell · Aracape",
     brand: 'Shell',
     neighborhood: "Aracape",
     address: "Rodovia Doutor Mendel Steinbruch, 6750 - Aracape",
@@ -18,7 +18,7 @@ export const stations: Station[] = [
   },
   {
     id: '2',
-    name: "Jovita Comercio De Petroleo Ltda",
+    name: "Posto BR · Parquelandia",
     brand: 'Petrobras',
     neighborhood: "Parquelandia",
     address: "Avenida Jovita Feitosa, 3175 - Parquelandia",
@@ -30,7 +30,7 @@ export const stations: Station[] = [
   },
   {
     id: '3',
-    name: "Posto Futuro Comercio De Petroleo Ltda",
+    name: "Posto · Papicu",
     brand: 'Branded',
     neighborhood: "Papicu",
     address: "Avenida Santos Dumont, 7700 - Papicu",
@@ -42,7 +42,7 @@ export const stations: Station[] = [
   },
   {
     id: '4',
-    name: "G A Comercio De Derivados De Petroleo Ltda",
+    name: "Ipiranga · Messejana",
     brand: 'Ipiranga',
     neighborhood: "Messejana",
     address: "Avenida Jornalista Tomaz Coelho, 410 - Messejana",
@@ -54,7 +54,7 @@ export const stations: Station[] = [
   },
   {
     id: '5',
-    name: "H I Comercio De Petroleo Ltda",
+    name: "Shell · Cidade Dos Funcionarios",
     brand: 'Shell',
     neighborhood: "Cidade Dos Funcionarios",
     address: "Avenida Desembargador Gonzaga, 45 - Cidade Dos Funcionarios",
@@ -66,7 +66,7 @@ export const stations: Station[] = [
   },
   {
     id: '6',
-    name: "Baj-comercial Varejista De Combustíveis Ltda.",
+    name: "Posto BR · Dionisio Torres",
     brand: 'Petrobras',
     neighborhood: "Dionisio Torres",
     address: "Avenida Pontes Vieira, 1341 - Dionisio Torres",
@@ -78,7 +78,7 @@ export const stations: Station[] = [
   },
   {
     id: '7',
-    name: "Jg Comercio De Petroleo Ltda",
+    name: "Ipiranga · Coco",
     brand: 'Ipiranga',
     neighborhood: "Coco",
     address: "Rua Eng Antonio Ferreira Antero, 455 - Coco",
@@ -90,7 +90,7 @@ export const stations: Station[] = [
   },
   {
     id: '8',
-    name: "Lm Revendedora De Petroleo Ltda",
+    name: "Shell · Aerolandia",
     brand: 'Shell',
     neighborhood: "Aerolandia",
     address: "Avenida Visconde Do Rio Branco, 6450 - Aerolandia",
@@ -102,7 +102,7 @@ export const stations: Station[] = [
   },
   {
     id: '9',
-    name: "Posto Mania Ltda",
+    name: "Posto BR · Granja Lisboa",
     brand: 'Petrobras',
     neighborhood: "Granja Lisboa",
     address: "Avenida Jose Torres, 200 - Granja Lisboa",
@@ -114,7 +114,7 @@ export const stations: Station[] = [
   },
   {
     id: '10',
-    name: "Almeida Chaves Comercial De Petroleo Ltda",
+    name: "Posto BR · Parque Santa Rosa",
     brand: 'Petrobras',
     neighborhood: "Parque Santa Rosa",
     address: "Rua Conego De Castro, 6041 - Parque Santa Rosa",
@@ -126,7 +126,7 @@ export const stations: Station[] = [
   },
   {
     id: '11',
-    name: "Posto Carioca Comercio De Combustiveis Ltda",
+    name: "Shell · Parque Sao Jose",
     brand: 'Shell',
     neighborhood: "Parque Sao Jose",
     address: "Avenida Luis Vieira, 835 - Parque Sao Jose",
@@ -138,7 +138,7 @@ export const stations: Station[] = [
   },
   {
     id: '12',
-    name: "J A Comercio Combustiveis Ltda",
+    name: "Posto · Jangurussu",
     brand: 'Branded',
     neighborhood: "Jangurussu",
     address: "Avenida Castelo Castro, 459 - Jangurussu",
@@ -150,7 +150,7 @@ export const stations: Station[] = [
   },
   {
     id: '13',
-    name: "Gomes & Coe Comercio De Combustiveis E Representacoes Ltda",
+    name: "Posto BR · Jangurussu/messejana",
     brand: 'Petrobras',
     neighborhood: "Jangurussu/messejana",
     address: "Avenida Jornalista Tomaz Coelho, 1878 - Jangurussu/messejana",
@@ -162,7 +162,7 @@ export const stations: Station[] = [
   },
   {
     id: '14',
-    name: "P 13 Comercio De Derivados De Petroleo Ltda",
+    name: "Posto · Bom Jardim",
     brand: 'Branded',
     neighborhood: "Bom Jardim",
     address: "Rua.oscar Araripe,390, S/N - Bom Jardim",
@@ -174,7 +174,7 @@ export const stations: Station[] = [
   },
   {
     id: '15',
-    name: "Bezerra Bezerra Ltda",
+    name: "Shell · Montese",
     brand: 'Shell',
     neighborhood: "Montese",
     address: "Rua Barao De Sobral, 311 - Montese",
@@ -186,7 +186,7 @@ export const stations: Station[] = [
   },
   {
     id: '16',
-    name: "Leonardo Lima E Cia Ltda - Epp",
+    name: "Ipiranga · Jacarecanga",
     brand: 'Ipiranga',
     neighborhood: "Jacarecanga",
     address: "Avenida Pres Castelo Branco, 709 - Jacarecanga",
@@ -198,7 +198,7 @@ export const stations: Station[] = [
   },
   {
     id: '17',
-    name: "Acopel - Americo Comercial De Petroleo Ltda",
+    name: "Shell · Guararapes",
     brand: 'Shell',
     neighborhood: "Guararapes",
     address: "Avenida Rogaciano Leite, 986 - Guararapes",
@@ -210,7 +210,7 @@ export const stations: Station[] = [
   },
   {
     id: '18',
-    name: "Super Comercio De Combustiveis Ltda",
+    name: "Posto BR · Papicu (1)",
     brand: 'Petrobras',
     neighborhood: "Papicu",
     address: "Travessa Paris, 1133 - Papicu",
@@ -222,7 +222,7 @@ export const stations: Station[] = [
   },
   {
     id: '19',
-    name: "Auto Posto Tigrao Ltda",
+    name: "Shell · Parque Santa Maria",
     brand: 'Shell',
     neighborhood: "Parque Santa Maria",
     address: "Rodovia Br 116 Km 12, 2928 - Parque Santa Maria",
@@ -234,7 +234,7 @@ export const stations: Station[] = [
   },
   {
     id: '20',
-    name: "Iguatemi Derivados De Petroleo Ltda",
+    name: "Ipiranga · Aldeota (1)",
     brand: 'Ipiranga',
     neighborhood: "Aldeota",
     address: "Avenida Santos Dumont, 5259 - Aldeota",
@@ -246,7 +246,7 @@ export const stations: Station[] = [
   },
   {
     id: '21',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Aldeota (1)",
     brand: 'Shell',
     neighborhood: "Aldeota",
     address: "Avenida Barao De Studart, 2255 - Aldeota",
@@ -258,7 +258,7 @@ export const stations: Station[] = [
   },
   {
     id: '22',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Aldeota (2)",
     brand: 'Shell',
     neighborhood: "Aldeota",
     address: "Avenida Santos Dumont, 2035 - Aldeota",
@@ -270,7 +270,7 @@ export const stations: Station[] = [
   },
   {
     id: '23',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Aldeota (3)",
     brand: 'Shell',
     neighborhood: "Aldeota",
     address: "Rua Costa Barros, 1515 - Aldeota",
@@ -282,7 +282,7 @@ export const stations: Station[] = [
   },
   {
     id: '24',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Messejana (1)",
     brand: 'Shell',
     neighborhood: "Messejana",
     address: "Rua Coronel Ernesto Matos, 582 - Messejana",
@@ -294,7 +294,7 @@ export const stations: Station[] = [
   },
   {
     id: '25',
-    name: "Posto Santa Cecilia Ltda",
+    name: "Posto BR · Cidade Dos Funcionários",
     brand: 'Petrobras',
     neighborhood: "Cidade Dos Funcionários",
     address: "Avenida Washington Soares, 4600 - Cidade Dos Funcionários",
@@ -306,7 +306,7 @@ export const stations: Station[] = [
   },
   {
     id: '26',
-    name: "Sousa Petroleo E Servicos Ltda",
+    name: "Posto BR · Jose De Alencar",
     brand: 'Petrobras',
     neighborhood: "Jose De Alencar",
     address: "Avenida Washington Soares, 5501 - Jose De Alencar",
@@ -318,7 +318,7 @@ export const stations: Station[] = [
   },
   {
     id: '27',
-    name: "H M A Comercial De Combustiveis Ltda",
+    name: "Ipiranga · Parangaba",
     brand: 'Ipiranga',
     neighborhood: "Parangaba",
     address: "Rua Prof Gomes Brasil, 475 - Parangaba",
@@ -330,7 +330,7 @@ export const stations: Station[] = [
   },
   {
     id: '28',
-    name: "Jp Comercio De Combustiveis E Lubrificantes Ltda",
+    name: "Posto BR · Castelao",
     brand: 'Petrobras',
     neighborhood: "Castelao",
     address: "Avenida Alberto Craveiro, 494 - Castelao",
@@ -342,7 +342,7 @@ export const stations: Station[] = [
   },
   {
     id: '29',
-    name: "Posto Cometa Comercio De Petroleo Ltda",
+    name: "Posto BR · Mucuripe",
     brand: 'Petrobras',
     neighborhood: "Mucuripe",
     address: "Avenida Da Abolicao, 3998 - Mucuripe",
@@ -354,7 +354,7 @@ export const stations: Station[] = [
   },
   {
     id: '30',
-    name: "Millennium Petroleo Ltda",
+    name: "Ipiranga · Castelao",
     brand: 'Ipiranga',
     neighborhood: "Castelao",
     address: "Avenida Deputado Paulino Rocha, 3003 - Castelao",
@@ -366,7 +366,7 @@ export const stations: Station[] = [
   },
   {
     id: '31',
-    name: "Kg Comercio E Combustiveis Ltda",
+    name: "Posto BR · Papicu (2)",
     brand: 'Petrobras',
     neighborhood: "Papicu",
     address: "Avenida Engenheiro Alberto Sa, 1340 - Papicu",
@@ -378,7 +378,7 @@ export const stations: Station[] = [
   },
   {
     id: '32',
-    name: "Comercial Ripardo Derivados De Petroleo Ltda",
+    name: "Posto BR · Joquei Clube",
     brand: 'Petrobras',
     neighborhood: "Joquei Clube",
     address: "Avenida Sen.fernandes Tavora, 3281 - Joquei Clube",
@@ -390,7 +390,7 @@ export const stations: Station[] = [
   },
   {
     id: '33',
-    name: "V M Revendedora De Petroleo Ltda",
+    name: "Shell · Bom Jardim",
     brand: 'Shell',
     neighborhood: "Bom Jardim",
     address: "Rua Oscar Franca, 51 - Bom Jardim",
@@ -402,7 +402,7 @@ export const stations: Station[] = [
   },
   {
     id: '34',
-    name: "Dampetro Comercio De Derivados De Petroleo Ltda",
+    name: "Ipiranga · Aldeota (2)",
     brand: 'Ipiranga',
     neighborhood: "Aldeota",
     address: "Avenida Barao De Studart, 1050 - Aldeota",
@@ -414,7 +414,7 @@ export const stations: Station[] = [
   },
   {
     id: '35',
-    name: "L&o Comercio De Derivados De Petroleo Ltda",
+    name: "Posto BR · Barra Do Ceara",
     brand: 'Petrobras',
     neighborhood: "Barra Do Ceara",
     address: "Avenida Cel. Carvalho, 360 - Barra Do Ceara",
@@ -426,7 +426,7 @@ export const stations: Station[] = [
   },
   {
     id: '36',
-    name: "Mack Vii Comercio De Derivados De Petroleo Ltda",
+    name: "Shell · Benfica",
     brand: 'Shell',
     neighborhood: "Benfica",
     address: "Avenida Da Universidade, 3555 - Benfica",
@@ -438,7 +438,7 @@ export const stations: Station[] = [
   },
   {
     id: '37',
-    name: "Leste Oeste Petróleo Ltda",
+    name: "Shell · Barra Do Ceará",
     brand: 'Shell',
     neighborhood: "Barra Do Ceará",
     address: "Avenida Presidente Castelo Branco, 4277 - Barra Do Ceará",
@@ -450,7 +450,7 @@ export const stations: Station[] = [
   },
   {
     id: '38',
-    name: "J A Comercio Combustiveis Ltda",
+    name: "Posto · Passare",
     brand: 'Branded',
     neighborhood: "Passare",
     address: "Avenida Alberto Craveiro, 3559 - Passare",
@@ -462,7 +462,7 @@ export const stations: Station[] = [
   },
   {
     id: '39',
-    name: "J P Comercio Varejista De Combustiveis Ltda",
+    name: "Shell · Messejana (2)",
     brand: 'Shell',
     neighborhood: "Messejana",
     address: "Rua Doutor Pergentino Maia, 808 - Messejana",
@@ -474,7 +474,7 @@ export const stations: Station[] = [
   },
   {
     id: '40',
-    name: "Montezuma Comercio E Servicos De Petroleo Ltda",
+    name: "Ipiranga · Coacu",
     brand: 'Ipiranga',
     neighborhood: "Coacu",
     address: "Avenida Estrada Barao De Aquiraz, 2530 - Coacu",
@@ -486,7 +486,7 @@ export const stations: Station[] = [
   },
   {
     id: '41',
-    name: "Montezuma Comercio E Servicos De Petroleo Ltda",
+    name: "Ipiranga · Barra Do Ceara",
     brand: 'Ipiranga',
     neighborhood: "Barra Do Ceara",
     address: "Rua Graca Aranha, 150 - Barra Do Ceara",
@@ -498,7 +498,7 @@ export const stations: Station[] = [
   },
   {
     id: '42',
-    name: "Sao Joao Comercio De Combustiveis Ltda",
+    name: "Posto BR · Edson Queiroz",
     brand: 'Petrobras',
     neighborhood: "Edson Queiroz",
     address: "Avenida Washington Soares, 2565 - Edson Queiroz",
@@ -510,7 +510,7 @@ export const stations: Station[] = [
   },
   {
     id: '43',
-    name: "Posto Flex Comercio E Distribuição De Combustíveis E Lubrificante Ltda",
+    name: "Shell · Carlito Pamplona",
     brand: 'Shell',
     neighborhood: "Carlito Pamplona",
     address: "Avenida Francisco Sa, 2707 - Carlito Pamplona",
@@ -522,7 +522,7 @@ export const stations: Station[] = [
   },
   {
     id: '44',
-    name: "Suellen Queiros Pinheiro - Me",
+    name: "Ipiranga · Conjunto Ceara",
     brand: 'Ipiranga',
     neighborhood: "Conjunto Ceara",
     address: "Avenida D, 1289 - Conjunto Ceara",
@@ -534,7 +534,7 @@ export const stations: Station[] = [
   },
   {
     id: '45',
-    name: "J A Comercio Combustiveis Ltda",
+    name: "Posto · Carlito Pamplona",
     brand: 'Branded',
     neighborhood: "Carlito Pamplona",
     address: "Avenida Francisco Sa, 3965 - Carlito Pamplona",
@@ -546,7 +546,7 @@ export const stations: Station[] = [
   },
   {
     id: '46',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Posto BR · Bonsucesso",
     brand: 'Petrobras',
     neighborhood: "Bonsucesso",
     address: "Avenida Augusto Dos Anjos, 1640 - Bonsucesso",
@@ -558,7 +558,7 @@ export const stations: Station[] = [
   },
   {
     id: '47',
-    name: "Comercial De Combustiveis Castelao Ltda.",
+    name: "Posto · Castelao",
     brand: 'Branded',
     neighborhood: "Castelao",
     address: "Avenida Alberto Craveiro, 2585 - Castelao",
@@ -570,7 +570,7 @@ export const stations: Station[] = [
   },
   {
     id: '48',
-    name: "Cauipe Revendedora De Petroleo Ltda",
+    name: "Posto BR · Aldeota (1)",
     brand: 'Petrobras',
     neighborhood: "Aldeota",
     address: "Avenida Senador Virgilio Tavora, 1085 - Aldeota",
@@ -582,7 +582,7 @@ export const stations: Station[] = [
   },
   {
     id: '49',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Nova Aldeota",
     brand: 'Shell',
     neighborhood: "Nova Aldeota",
     address: "Rua Engenheiro Alberto Sa, 246, S/N - Nova Aldeota",
@@ -594,7 +594,7 @@ export const stations: Station[] = [
   },
   {
     id: '50',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Posto BR · Centro (1)",
     brand: 'Petrobras',
     neighborhood: "Centro",
     address: "Rua Pero Coelho, 271 - Centro",
@@ -606,7 +606,7 @@ export const stations: Station[] = [
   },
   {
     id: '51',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Papicu",
     brand: 'Shell',
     neighborhood: "Papicu",
     address: "Rua Francisco Mattos, 255 - Papicu",
@@ -618,7 +618,7 @@ export const stations: Station[] = [
   },
   {
     id: '52',
-    name: "Sobral & Palacio Petroleo Ltda",
+    name: "Shell · Dionisio Torres (1)",
     brand: 'Shell',
     neighborhood: "Dionisio Torres",
     address: "Rua Israel Bezerra, 1155 - Dionisio Torres",
@@ -630,7 +630,7 @@ export const stations: Station[] = [
   },
   {
     id: '53',
-    name: "Souza Comércio De Petróleo E Serviços Ltda",
+    name: "Shell · Dionisio Torres (2)",
     brand: 'Shell',
     neighborhood: "Dionisio Torres",
     address: "Avenida Pontes Vieira, 2250 - Dionisio Torres",
@@ -642,7 +642,7 @@ export const stations: Station[] = [
   },
   {
     id: '54',
-    name: "Posto Shoping Mangue Ltda",
+    name: "Ipiranga · Pio Xii",
     brand: 'Ipiranga',
     neighborhood: "Pio Xii",
     address: "Avenida Raul Barbosa, 900 - Pio Xii",
@@ -654,7 +654,7 @@ export const stations: Station[] = [
   },
   {
     id: '55',
-    name: "Organizacao Helio Meireles Petroleo Ltda",
+    name: "Posto BR · Aldeota (2)",
     brand: 'Petrobras',
     neighborhood: "Aldeota",
     address: "Avenida Antonio Sales, 1340 - Aldeota",
@@ -666,7 +666,7 @@ export const stations: Station[] = [
   },
   {
     id: '56',
-    name: "Organizacao Helio Meireles Petroleo Ltda",
+    name: "Posto BR · Meireles",
     brand: 'Petrobras',
     neighborhood: "Meireles",
     address: "Avenida Sen.virgilio Tavora, 330 - Meireles",
@@ -678,7 +678,7 @@ export const stations: Station[] = [
   },
   {
     id: '57',
-    name: "J C Comercio De Combustivel Ltda",
+    name: "Ipiranga · Meireles",
     brand: 'Ipiranga',
     neighborhood: "Meireles",
     address: "Avenida Antonio Justa, 2400 - Meireles",
@@ -690,7 +690,7 @@ export const stations: Station[] = [
   },
   {
     id: '58',
-    name: "Fortaleza Comercio De Petroleo Ltda.",
+    name: "Posto BR · Centro (2)",
     brand: 'Petrobras',
     neighborhood: "Centro",
     address: "Avenida Heraclito Graça, 575 - Centro",
@@ -702,7 +702,7 @@ export const stations: Station[] = [
   },
   {
     id: '59',
-    name: "Distribuidora De Petroleo Nota Dez Ltda",
+    name: "Ipiranga · Papicu",
     brand: 'Ipiranga',
     neighborhood: "Papicu",
     address: "Avenida Padre Antonio Tomas, 3600 - Papicu",
@@ -714,7 +714,7 @@ export const stations: Station[] = [
   },
   {
     id: '60',
-    name: "Sl Comercial De Combustiveis E Derivados De Petroleo Ltda",
+    name: "Ipiranga · Aerolandia",
     brand: 'Ipiranga',
     neighborhood: "Aerolandia",
     address: "Avenida Visconde Do Rio Branco, 5922 - Aerolandia",
@@ -726,7 +726,7 @@ export const stations: Station[] = [
   },
   {
     id: '61',
-    name: "Papagaio Comercio De Derivados De Petroleo Ltda",
+    name: "Posto BR · Tauape",
     brand: 'Petrobras',
     neighborhood: "Tauape",
     address: "Avenida Pontes Vieira, 1700 - Tauape",
@@ -738,7 +738,7 @@ export const stations: Station[] = [
   },
   {
     id: '62',
-    name: "Gmx Comercio De Derivados De Petroleo Ltda",
+    name: "Posto · Aldeota",
     brand: 'Branded',
     neighborhood: "Aldeota",
     address: "Rua Pinto Madeira, 1131 - Aldeota",
@@ -750,7 +750,7 @@ export const stations: Station[] = [
   },
   {
     id: '63',
-    name: "Jangada Comercio De Combustiveis Ltda",
+    name: "Shell · Meireles",
     brand: 'Shell',
     neighborhood: "Meireles",
     address: "Avenida Abolição, 2432 - Meireles",
@@ -762,7 +762,7 @@ export const stations: Station[] = [
   },
   {
     id: '64',
-    name: "Mack Ii Comercio De Combustiveis Ltda",
+    name: "Shell · Passare",
     brand: 'Shell',
     neighborhood: "Passare",
     address: "Avenida Juscelino Kubitschek, 4547 - Passare",
@@ -774,7 +774,7 @@ export const stations: Station[] = [
   },
   {
     id: '65',
-    name: "Santo Antonio Comercio De Combustivel E Derivados De Petroleo Ltda",
+    name: "Posto · Boa Vista (1)",
     brand: 'Branded',
     neighborhood: "Boa Vista",
     address: "Avenida Doutor Silas Munguba, 5555 - Boa Vista",
@@ -786,7 +786,7 @@ export const stations: Station[] = [
   },
   {
     id: '66',
-    name: "Petrocar Comercio De Petroleo Ltda",
+    name: "Shell · Aldeota (4)",
     brand: 'Shell',
     neighborhood: "Aldeota",
     address: "Rua Doutor Jose Lourenco, 1241 - Aldeota",
@@ -798,7 +798,7 @@ export const stations: Station[] = [
   },
   {
     id: '67',
-    name: "J P L Comercio De Combustiveis Ltda",
+    name: "Posto · Boa Vista (2)",
     brand: 'Branded',
     neighborhood: "Boa Vista",
     address: "Avenida Alberto Craveiro, 1200 - Boa Vista",
@@ -810,7 +810,7 @@ export const stations: Station[] = [
   },
   {
     id: '68',
-    name: "Uirapuru Comércio De Combustiveis Ltda",
+    name: "Shell · Boa Vista",
     brand: 'Shell',
     neighborhood: "Boa Vista",
     address: "Avenida Alberto Craveiro, 1973 - Boa Vista",
