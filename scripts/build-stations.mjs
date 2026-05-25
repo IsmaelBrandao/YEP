@@ -9,6 +9,7 @@ const TMP = os.tmpdir();
 const GAS_CSV = path.join(TMP, 'anp_gas.csv');
 const DIESEL_CSV = path.join(TMP, 'anp_diesel.csv');
 const OUT = path.join(process.cwd(), 'src', 'services', 'stations.ts');
+const JSON_OUT = path.join(process.cwd(), 'assets', 'stations.json');
 const CACHE = path.join(process.cwd(), 'scripts', '.geocode-cache.json');
 
 const geocodeCache = fs.existsSync(CACHE) ? JSON.parse(fs.readFileSync(CACHE, 'utf8')) : {};
@@ -184,6 +185,28 @@ export function getStationById(id: string): Station | undefined {
 `;
 }
 
+// Mesma estrutura do stations.ts, mas como objetos puros para servir via HTTP
+// (o app carrega isso por axios, com o arquivo embutido como fallback).
+function toStationObjects(stations) {
+  return stations.map((s, index) => ({
+    id: String(index + 1),
+    name: titleCase(s.revenda),
+    brand: s.brand,
+    neighborhood: titleCase(s.bairro),
+    address: `${titleCase(s.rua)}, ${s.numero} - ${titleCase(s.bairro)}`,
+    coordinate: { latitude: s.coordinate.latitude, longitude: s.coordinate.longitude },
+    prices: s.prices,
+    services: {
+      conveniencia: false,
+      calibragem: false,
+      lavagem: false,
+      gnv: s.prices.gnv != null,
+    },
+    photo: PHOTO,
+    updatedAt: new Date(s.updatedAt).toISOString(),
+  }));
+}
+
 const SNAP_RADIUS_KM = 0.5;
 
 function haversine(a, b) {
@@ -266,7 +289,9 @@ async function main() {
   console.log(`Snapados para a posicao real do OSM: ${snapped}/${resolved.length}`);
 
   fs.writeFileSync(OUT, serialize(resolved));
+  fs.writeFileSync(JSON_OUT, JSON.stringify(toStationObjects(resolved), null, 2) + '\n');
   console.log(`Escrito: ${OUT}`);
+  console.log(`Escrito: ${JSON_OUT}`);
 }
 
 main();
