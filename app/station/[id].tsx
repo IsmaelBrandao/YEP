@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Image,
   Linking,
@@ -20,6 +21,7 @@ import { useAppData } from '../../src/hooks/AppDataContext';
 import { useLocation } from '../../src/hooks/useLocation';
 import { useStationsData } from '../../src/hooks/StationsContext';
 import { distanceKm } from '../../src/services/geo';
+import { fetchStationPhoto } from '../../src/services/photoApi';
 import { FuelType } from '../../src/services/types';
 import { colors, fontSize, formatDistance, formatPrice, radius, spacing } from '../../src/styles/theme';
 
@@ -43,6 +45,26 @@ export default function StationDetailScreen() {
   const [reportPrice, setReportPrice] = useState('');
   const [reportFuel, setReportFuel] = useState<FuelType>('comum');
   const [photoUri, setPhotoUri] = useState<string | null>(null);
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
+  const [coverLoading, setCoverLoading] = useState(true);
+
+  const lat = station?.coordinate.latitude;
+  const lng = station?.coordinate.longitude;
+
+  const loadPhoto = useCallback(async (latitude: number, longitude: number) => {
+    setCoverLoading(true);
+    const url = await fetchStationPhoto(latitude, longitude);
+    setCoverUrl(url);
+    setCoverLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (lat == null || lng == null) {
+      return;
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadPhoto(lat, lng);
+  }, [lat, lng, loadPhoto]);
 
   const distance = useMemo(() => {
     if (!station) {
@@ -105,7 +127,21 @@ export default function StationDetailScreen() {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <View>
-          <Image source={{ uri: station.photo }} style={styles.photo} />
+          {coverLoading ? (
+            <View style={[styles.photo, styles.photoPlaceholder]}>
+              <ActivityIndicator color={colors.primary} />
+            </View>
+          ) : coverUrl ? (
+            <>
+              <Image source={{ uri: coverUrl }} style={styles.photo} />
+              <Text style={styles.attribution}>© Mapillary</Text>
+            </>
+          ) : (
+            <View style={[styles.photo, styles.photoPlaceholder]}>
+              <MaterialCommunityIcons name="gas-station" size={52} color={colors.border} />
+              <Text style={styles.photoPlaceholderText}>Foto de rua indisponível</Text>
+            </View>
+          )}
           <View style={[styles.headerActions, { top: insets.top + spacing.sm }]}>
             <TouchableOpacity style={styles.circleButton} onPress={() => router.back()}>
               <MaterialCommunityIcons name="arrow-left" size={22} color={colors.text} />
@@ -264,6 +300,26 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     height: 220,
     width: '100%',
+  },
+  photoPlaceholder: {
+    alignItems: 'center',
+    gap: spacing.sm,
+    justifyContent: 'center',
+  },
+  photoPlaceholderText: {
+    color: colors.textMuted,
+    fontSize: fontSize.sm,
+  },
+  attribution: {
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 3,
+    bottom: 6,
+    color: colors.white,
+    fontSize: 10,
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    position: 'absolute',
+    right: 8,
   },
   headerActions: {
     flexDirection: 'row',
