@@ -20,6 +20,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppData } from '../../src/hooks/AppDataContext';
 import { useLocation } from '../../src/hooks/useLocation';
 import { useStationsData } from '../../src/hooks/StationsContext';
+import { ServiceFlags, useStationServices } from '../../src/hooks/useStationServices';
 import { distanceKm } from '../../src/services/geo';
 import { fetchStationPhoto } from '../../src/services/photoApi';
 import { FuelType } from '../../src/services/types';
@@ -47,6 +48,14 @@ export default function StationDetailScreen() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [coverLoading, setCoverLoading] = useState(true);
+  const [serviceModalVisible, setServiceModalVisible] = useState(false);
+  const [serviceDraft, setServiceDraft] = useState<ServiceFlags>({
+    conveniencia: false,
+    calibragem: false,
+    lavagem: false,
+  });
+
+  const { available, myReport, totalReports, saveMyServices } = useStationServices(id);
 
   const lat = station?.coordinate.latitude;
   const lng = station?.coordinate.longitude;
@@ -90,6 +99,16 @@ export default function StationDetailScreen() {
     Linking.openURL(url).catch(() => {
       Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`);
     });
+  }
+
+  async function submitServices() {
+    await saveMyServices(serviceDraft);
+    setServiceModalVisible(false);
+    Alert.alert('Valeu!', 'Obrigado por ajudar a comunidade com as informações.');
+  }
+
+  function toggleDraft(key: keyof ServiceFlags) {
+    setServiceDraft((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
   async function pickReceiptPhoto() {
@@ -180,13 +199,37 @@ export default function StationDetailScreen() {
             })}
           </View>
 
-          <Text style={styles.sectionTitle}>Serviços</Text>
+          <View style={styles.servicesHeader}>
+            <Text style={styles.sectionTitle}>Serviços</Text>
+            {totalReports > 0 && (
+              <Text style={styles.reportsBadge}>
+                {totalReports} {totalReports > 1 ? 'reportes' : 'reporte'}
+              </Text>
+            )}
+          </View>
           <View style={styles.services}>
-            <ServiceBadge active={station.services.conveniencia} icon="store" label="Conveniência" />
-            <ServiceBadge active={station.services.calibragem} icon="car-tire-alert" label="Calibragem" />
-            <ServiceBadge active={station.services.lavagem} icon="car-wash" label="Lavagem" />
+            <ServiceBadge active={available.conveniencia} icon="store" label="Conveniência" />
+            <ServiceBadge active={available.calibragem} icon="car-tire-alert" label="Calibragem" />
+            <ServiceBadge active={available.lavagem} icon="car-wash" label="Lavagem" />
             <ServiceBadge active={station.services.gnv} icon="fuel" label="GNV" />
           </View>
+          {totalReports === 0 && (
+            <Text style={styles.servicesNote}>
+              Conveniência, calibragem e lavagem ainda não foram reportados pela comunidade.
+            </Text>
+          )}
+          <TouchableOpacity
+            style={styles.servicesButton}
+            onPress={() => {
+              setServiceDraft(myReport ?? { conveniencia: false, calibragem: false, lavagem: false });
+              setServiceModalVisible(true);
+            }}
+          >
+            <MaterialCommunityIcons name="playlist-edit" size={18} color={colors.primary} />
+            <Text style={styles.servicesButtonText}>
+              {myReport ? 'Editar serviços que informei' : 'Informar serviços deste posto'}
+            </Text>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.primaryButton} onPress={openDirections}>
             <MaterialCommunityIcons name="navigation-variant" size={20} color={colors.white} />
@@ -254,9 +297,61 @@ export default function StationDetailScreen() {
           </View>
         </View>
       </Modal>
+
+      <Modal visible={serviceModalVisible} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>Serviços do posto</Text>
+            <Text style={styles.servicesNote}>
+              Marque o que este posto oferece. Suas respostas se somam às da comunidade.
+            </Text>
+
+            {SERVICE_OPTIONS.map((option) => {
+              const checked = serviceDraft[option.key];
+              return (
+                <TouchableOpacity
+                  key={option.key}
+                  style={styles.serviceRow}
+                  onPress={() => toggleDraft(option.key)}
+                >
+                  <MaterialCommunityIcons
+                    name={checked ? 'checkbox-marked' : 'checkbox-blank-outline'}
+                    size={24}
+                    color={checked ? colors.primary : colors.textMuted}
+                  />
+                  <MaterialCommunityIcons name={option.icon} size={20} color={colors.text} />
+                  <Text style={styles.serviceRowText}>{option.label}</Text>
+                </TouchableOpacity>
+              );
+            })}
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.modalCancel}
+                onPress={() => setServiceModalVisible(false)}
+              >
+                <Text style={styles.modalCancelText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalConfirm} onPress={submitServices}>
+                <Text style={styles.modalConfirmText}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
+
+const SERVICE_OPTIONS: {
+  key: keyof ServiceFlags;
+  label: string;
+  icon: keyof typeof MaterialCommunityIcons.glyphMap;
+}[] = [
+  { key: 'conveniencia', label: 'Conveniência', icon: 'store' },
+  { key: 'calibragem', label: 'Calibragem', icon: 'car-tire-alert' },
+  { key: 'lavagem', label: 'Lavagem', icon: 'car-wash' },
+];
 
 function ServiceBadge({
   active,
@@ -389,6 +484,47 @@ const styles = StyleSheet.create({
     fontSize: fontSize.md,
     fontWeight: '700',
     marginTop: spacing.md,
+  },
+  servicesHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  reportsBadge: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.pill,
+    color: colors.textMuted,
+    fontSize: fontSize.xs,
+    marginTop: spacing.md,
+    overflow: 'hidden',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+  },
+  servicesNote: {
+    color: colors.textMuted,
+    fontSize: fontSize.sm,
+  },
+  servicesButton: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    gap: spacing.xs,
+    paddingVertical: spacing.sm,
+  },
+  servicesButtonText: {
+    color: colors.primary,
+    fontSize: fontSize.sm,
+    fontWeight: '700',
+  },
+  serviceRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  serviceRowText: {
+    color: colors.text,
+    fontSize: fontSize.md,
   },
   services: {
     flexDirection: 'row',
