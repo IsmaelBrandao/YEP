@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import { router } from 'expo-router';
 
@@ -38,7 +39,7 @@ function priceIcon(label: string, color: string) {
         margin-bottom:-3px;
         z-index:2;
       ">${label}</div>
-      <svg width="30" height="40" viewBox="0 0 24 32" style="filter:drop-shadow(0 2px 3px rgba(0,0,0,0.35))">
+      <svg width="28" height="38" viewBox="0 0 24 32">
         <path d="M12 0C5.4 0 0 5.2 0 11.6 0 20 12 32 12 32s12-12 12-20.4C24 5.2 18.6 0 12 0z" fill="${color}" stroke="#fff" stroke-width="2"/>
         <circle cx="12" cy="11.5" r="4" fill="#fff"/>
       </svg>
@@ -107,26 +108,28 @@ export default function StationsMap({
           icon={userIcon()}
         />
 
-        {stations.map((station) => {
-          const price = station.prices[fuel];
-          const color =
-            price == null ? colors.textMuted : priceColor(price, priceRange.min, priceRange.max);
-          const label = price == null ? '—' : formatPrice(price);
-          return (
-            <Marker
-              key={station.id}
-              position={[station.coordinate.latitude, station.coordinate.longitude]}
-              icon={priceIcon(label, color)}
-              eventHandlers={{ click: () => router.push(`/station/${station.id}`) }}
-            >
-              <Popup>
-                <strong>{station.name}</strong>
-                <br />
-                {station.address}
-              </Popup>
-            </Marker>
-          );
-        })}
+        <MarkerClusterGroup chunkedLoading maxClusterRadius={50}>
+          {stations.map((station) => {
+            const price = station.prices[fuel];
+            const color =
+              price == null ? colors.textMuted : priceColor(price, priceRange.min, priceRange.max);
+            const label = price == null ? '—' : formatPrice(price);
+            return (
+              <Marker
+                key={station.id}
+                position={[station.coordinate.latitude, station.coordinate.longitude]}
+                icon={priceIcon(label, color)}
+                eventHandlers={{ click: () => router.push(`/station/${station.id}`) }}
+              >
+                <Popup>
+                  <strong>{station.name}</strong>
+                  <br />
+                  {station.address}
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MarkerClusterGroup>
       </MapContainer>
 
       <button onClick={handleRecenter} title="Minha localização" style={recenterButtonStyle}>
